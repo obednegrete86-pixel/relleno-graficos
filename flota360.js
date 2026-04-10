@@ -39,7 +39,8 @@ function paintFlota360Charts(monthDate, store, els) {
       weekKeys,
       weekKeys.map((k) => Number((monthData.weekly[k] || emptyFlota360Point()).porcentaje || 0)),
       weekKeys.map((k) => Number((monthData.weekly[k] || emptyFlota360Point()).pendientes || 0)),
-      "EVALUACION FLOTA 360 SEMANAL"
+      "EVALUACION FLOTA 360 SEMANAL",
+      { yPercentMin: 0, yPercentMax: 120 }
     ),
     createFlota360CombinedChart(
       els.dailyCanvas,
@@ -166,8 +167,9 @@ function createFlota360MonthlyChart(canvasNode, labels, porcentajeData, title, h
 const FLOTA360_PENDIENTES_DESDE_TOPE_BARRA = 3.5;
 const FLOTA360_PENDIENTES_MIN_SOBRE_META = 104;
 
-function createFlota360CombinedChart(canvasNode, labels, porcentajeData, pendientesData, title) {
-  const yPercentAxisMin = 40;
+function createFlota360CombinedChart(canvasNode, labels, porcentajeData, pendientesData, title, axisOpts) {
+  const yPercentAxisMin = axisOpts && Number.isFinite(axisOpts.yPercentMin) ? axisOpts.yPercentMin : 40;
+  const yPercentAxisMax = axisOpts && Number.isFinite(axisOpts.yPercentMax) ? axisOpts.yPercentMax : 120;
   const hasAnyData =
     porcentajeData.some((v) => Number(v || 0) > 0) ||
     pendientesData.some((v) => Number(v || 0) > 0);
@@ -295,7 +297,7 @@ function createFlota360CombinedChart(canvasNode, labels, porcentajeData, pendien
       scales: {
         yPercent: {
           min: yPercentAxisMin,
-          max: 120,
+          max: yPercentAxisMax,
           position: "left",
           ticks: {
             stepSize: 10,
