@@ -261,6 +261,24 @@
             </div>
           </section>
         </section>
+
+        <section class="card">
+          <h3>Vista gráfica (mismos datos)</h3>
+          <p class="subtle">Semanal: eje Y de 0% a 120%. También disponible en el menú <strong>Evaluacion Flota 360</strong>.</p>
+          <section class="indicator-grid-top">
+            <article class="card chart-card">
+              <canvas id="captureFlota360MonthlyChart"></canvas>
+            </article>
+            <article class="card chart-card">
+              <canvas id="captureFlota360DailyChart"></canvas>
+            </article>
+          </section>
+          <section class="indicator-grid-top" style="margin-top:1rem;">
+            <article class="card chart-card weekly-wide">
+              <canvas id="captureFlota360WeeklyChart"></canvas>
+            </article>
+          </section>
+        </section>
         <section class="card">
           <div class="actions">
             <button id="saveFlota360Btn" class="btn-primary">Guardar Evaluacion Flota 360</button>
@@ -330,6 +348,9 @@
     <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
     <script src="app.js"></script>
     <script src="import-excel.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script>
+    <script src="flota360.js"></script>
     <script src="capture.js"></script>
   </body>
 </html>

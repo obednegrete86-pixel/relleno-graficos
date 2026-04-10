@@ -296,8 +296,10 @@ function createFlota360CombinedChart(canvasNode, labels, porcentajeData, pendien
       },
       scales: {
         yPercent: {
+          type: "linear",
           min: yPercentAxisMin,
           max: yPercentAxisMax,
+          grace: 0,
           position: "left",
           ticks: {
             stepSize: 10,
