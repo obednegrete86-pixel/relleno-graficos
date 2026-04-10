@@ -78,6 +78,13 @@ function isCaptureAuthenticated() {
   return sessionStorage.getItem("capture_auth_ok") === "1";
 }
 
+/** Actualiza el objeto `store` en memoria con lo último de localStorage (p. ej. tras importar Excel). */
+function syncStoreFromLocal(store) {
+  const fresh = getStore();
+  for (const k of Object.keys(store)) delete store[k];
+  Object.assign(store, fresh);
+}
+
 function initCarrosCapture() {
   const store = getStore();
   const today = new Date();
@@ -88,6 +95,7 @@ function initCarrosCapture() {
   fillMonthSelect(select, year, selectedDate.getMonth() + 1);
 
   function refreshCaptureView() {
+    syncStoreFromLocal(store);
     const captureKey = toMonthKey(selectedDate);
     const referenceDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth() - 1, 1);
     const referenceKey = toMonthKey(referenceDate);
@@ -266,6 +274,7 @@ function initSemaforoCapture() {
   fillMonthSelect(select, year, selectedDate.getMonth() + 1);
 
   function renderSemaforoCapture() {
+    syncStoreFromLocal(store);
     const monthKey = toMonthKey(selectedDate);
     const monthData = ensureSemaforoMonthData(store, monthKey, selectedDate);
     const yearly = ensureSemaforoYearlyData(store, selectedDate.getFullYear());
@@ -304,6 +313,7 @@ function initFlota360Capture() {
   fillMonthSelect(select, year, selectedDate.getMonth() + 1);
 
   function renderFlota360Capture() {
+    syncStoreFromLocal(store);
     const monthKey = toMonthKey(selectedDate);
     const monthData = ensureFlota360MonthData(store, monthKey, selectedDate);
     const yearly = ensureFlota360YearlyData(store, selectedDate.getFullYear());
@@ -409,6 +419,7 @@ function initMttoPreventivoCapture() {
   fillMonthSelect(select, year, selectedDate.getMonth() + 1);
 
   function renderMttoPreventivoCapture() {
+    syncStoreFromLocal(store);
     const monthKey = toMonthKey(selectedDate);
     const monthData = ensureMttoPreventivoMonthData(store, monthKey, selectedDate);
     const yearly = ensureMttoPreventivoYearlyData(store, selectedDate.getFullYear());
