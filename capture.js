@@ -21,6 +21,7 @@ function buildCapturePage() {
   };
 
   if (typeof initImportExcel === "function") initImportExcel();
+  if (typeof window.initUnidadesCaptureUI === "function") window.initUnidadesCaptureUI();
 
   function switchSection(indicatorKey) {
     carrosSection.classList.toggle("active", indicatorKey === "carros");
@@ -30,6 +31,7 @@ function buildCapturePage() {
       mttoPreventivoSection.classList.toggle("active", indicatorKey === "mtto");
     }
     if (indicatorKey === "carros") carrosApi.refresh();
+    if (typeof window.reloadUnidadesCaptureTextareas === "function") window.reloadUnidadesCaptureTextareas();
   }
 
   indicatorSelect.addEventListener("change", (event) => switchSection(event.target.value));
@@ -118,6 +120,7 @@ function initCarrosCapture() {
     selectedDate = new Date(year, Number(event.target.value) - 1, 1);
     refreshCaptureView();
     setStatus(`Mes activo: ${getMonthLabel(selectedDate)}.`);
+    if (typeof window.reloadUnidadesCaptureTextareas === "function") window.reloadUnidadesCaptureTextareas();
   });
   document.getElementById("saveBtn").addEventListener("click", () => {
     if (captureMonth.status === "closed") return setStatus("Este mes ya está cerrado. No se permiten cambios.");
@@ -290,6 +293,7 @@ function initSemaforoCapture() {
     selectedDate = new Date(year, Number(event.target.value) - 1, 1);
     renderSemaforoCapture();
     document.getElementById("semaforoStatusMessage").textContent = `Mes activo: ${getMonthLabel(selectedDate)}.`;
+    if (typeof window.reloadUnidadesCaptureTextareas === "function") window.reloadUnidadesCaptureTextareas();
   });
   document.getElementById("saveSemaforoBtn").addEventListener("click", () => {
     const monthData = ensureSemaforoMonthData(store, toMonthKey(selectedDate), selectedDate);
@@ -332,6 +336,7 @@ function initFlota360Capture() {
     selectedDate = new Date(year, Number(event.target.value) - 1, 1);
     renderFlota360Capture();
     document.getElementById("flota360StatusMessage").textContent = `Mes activo: ${getMonthLabel(selectedDate)}.`;
+    if (typeof window.reloadUnidadesCaptureTextareas === "function") window.reloadUnidadesCaptureTextareas();
   });
   document.getElementById("saveFlota360Btn").addEventListener("click", () => {
     const monthData = ensureFlota360MonthData(store, toMonthKey(selectedDate), selectedDate);
@@ -438,6 +443,7 @@ function initMttoPreventivoCapture() {
     selectedDate = new Date(year, Number(event.target.value) - 1, 1);
     renderMttoPreventivoCapture();
     document.getElementById("mttoPreventivoStatusMessage").textContent = `Mes activo: ${getMonthLabel(selectedDate)}.`;
+    if (typeof window.reloadUnidadesCaptureTextareas === "function") window.reloadUnidadesCaptureTextareas();
   });
   document.getElementById("saveMttoPreventivoBtn").addEventListener("click", () => {
     const monthData = ensureMttoPreventivoMonthData(store, toMonthKey(selectedDate), selectedDate);

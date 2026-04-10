@@ -383,3 +383,35 @@ function getMttoPreventivoYearlySeries(store, year) {
     pendientes: labels.map((_, idx) => Number((yearly[String(idx + 1)] || emptyMttoPreventivoPoint()).pendientes || 0))
   };
 }
+
+/** Listas de unidades por indicador y mes (Captura + paneles de lectura). */
+function ensureUnidadesStore(store) {
+  if (!store.__unidades) store.__unidades = {};
+  return store.__unidades;
+}
+
+function getUnidadesMes(store, indicador, monthKey) {
+  const root = ensureUnidadesStore(store);
+  if (!root[indicador]) root[indicador] = {};
+  if (!root[indicador][monthKey]) {
+    root[indicador][monthKey] = { enTallerText: "", pendientesText: "" };
+  }
+  return root[indicador][monthKey];
+}
+
+function setUnidadesMesTexts(store, indicador, monthKey, enTallerText, pendientesText) {
+  const e = getUnidadesMes(store, indicador, monthKey);
+  e.enTallerText = enTallerText != null ? String(enTallerText) : "";
+  e.pendientesText = pendientesText != null ? String(pendientesText) : "";
+}
+
+/** Rango de días en taller → clave de categoría del gráfico apilado Carros. */
+function diasEnTallerToCategory(dias) {
+  const d = Number(dias);
+  if (!Number.isFinite(d) || d < 0) return null;
+  if (d < 5) return "lt5";
+  if (d <= 30) return "d6_30";
+  if (d <= 60) return "d31_60";
+  if (d <= 100) return "d61_100";
+  return "gt100";
+}

@@ -479,3 +479,56 @@ th {
     height: 250px !important;
   }
 }
+
+/* Listas de unidades (Captura + indicadores) */
+.unidades-two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+@media (max-width: 720px) {
+  .unidades-two-col {
+    grid-template-columns: 1fr;
+  }
+}
+
+.unidades-textarea,
+.input-wide {
+  width: 100%;
+  min-height: 6.5rem;
+  font-family: ui-monospace, Consolas, monospace;
+  font-size: 0.85rem;
+  padding: 0.5rem 0.55rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  resize: vertical;
+}
+
+.unidades-subtitle {
+  font-size: 1rem;
+  margin: 0 0 0.35rem 0;
+  color: var(--text);
+}
+
+.unidades-panel-card {
+  margin-bottom: 1rem;
+}
+
+.unidades-data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+}
+
+.unidades-data-table th,
+.unidades-data-table td {
+  border: 1px solid var(--border);
+  padding: 0.35rem 0.5rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.unidades-data-table th {
+  background: var(--surface-muted);
+}

@@ -50,6 +50,9 @@ function paintFlota360Charts(monthDate, store, els) {
       "EVALUACION FLOTA 360 DIARIO"
     )
   );
+  if (typeof window.renderUnidadesIndicadorPanel === "function") {
+    window.renderUnidadesIndicadorPanel("flota360", monthKey);
+  }
 }
 
 function getStandaloneFlota360ChartEls() {

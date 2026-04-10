@@ -49,6 +49,9 @@ function paintSemaforoCharts(monthDate, store, els) {
       "SEMAFORO DE LLANTAS DIARIO"
     )
   );
+  if (typeof window.renderUnidadesIndicadorPanel === "function") {
+    window.renderUnidadesIndicadorPanel("semaforo", monthKey);
+  }
 }
 
 function getStandaloneSemaforoChartEls() {

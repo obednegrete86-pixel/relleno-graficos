@@ -49,6 +49,9 @@ function paintMttoPreventivoCharts(monthDate, store, els) {
       "MTTO PREVENTIVO DIARIO"
     )
   );
+  if (typeof window.renderUnidadesIndicadorPanel === "function") {
+    window.renderUnidadesIndicadorPanel("mtto", monthKey);
+  }
 }
 
 function getStandaloneMttoPreventivoChartEls() {

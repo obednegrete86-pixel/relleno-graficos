@@ -338,6 +338,9 @@
           if (typeof window.refreshAllCaptureFromImport === "function") {
             window.refreshAllCaptureFromImport();
           }
+          if (typeof window.reloadUnidadesCaptureTextareas === "function") {
+            window.reloadUnidadesCaptureTextareas();
+          }
           let text = total > 0
             ? `Importación lista: ${total} fila(s) aplicada(s).`
             : "No se importó ninguna fila (revisa encabezados y celdas con datos).";

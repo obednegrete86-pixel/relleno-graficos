@@ -83,6 +83,9 @@ function buildIndicatorsPage() {
         "SETTEPI / CARROS TALLER SEMANAL"
       )
     );
+    if (typeof window.renderUnidadesIndicadorPanel === "function") {
+      window.renderUnidadesIndicadorPanel("carros", monthKey);
+    }
   }
 
   renderForMonth(selectedDate);
