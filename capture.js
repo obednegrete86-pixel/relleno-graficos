@@ -326,9 +326,6 @@ function initFlota360Capture() {
     renderFlota360MonthlyTable(yearly);
     renderFlota360WeeklyTable(monthData);
     renderFlota360DailyTable(monthData, selectedDate);
-    if (typeof window.refreshFlota360ChartsForCapture === "function") {
-      window.refreshFlota360ChartsForCapture(selectedDate);
-    }
   }
 
   renderFlota360Capture();

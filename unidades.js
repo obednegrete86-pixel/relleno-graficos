@@ -125,55 +125,37 @@
     const u = getUnidadesMes(store, indicador, monthKey);
     const isCarros = indicador === "carros";
 
-    let htmlEn = "";
-    let htmlPe = "";
+    let bodyHtml = "";
+    let tituloPrincipal = "";
 
     if (isCarros) {
+      tituloPrincipal = `Unidades en taller — ${monthKey}`;
       const rowsT = parseCarrosEnTallerText(u.enTallerText || "");
-      htmlEn =
+      bodyHtml =
         rowsT.length === 0
           ? "<p class=\"subtle\">Sin unidades en taller capturadas para este mes.</p>"
-          : `<div class="table-scroll"><table class="data-table unidades-data-table"><thead><tr>
+          : `<p class=\"subtle\">Color de fila = rango de días (mismo criterio que el gráfico apilado).</p>
+          <div class="table-scroll"><table class="data-table unidades-data-table"><thead><tr>
             <th>ID</th><th>Días en taller</th><th>Rango (gráfica)</th><th>Cliente</th><th>Marca</th><th>Año</th>
           </tr></thead><tbody>${rowsT.map((r) => buildRowCellsCarrosTaller(r, map)).join("")}</tbody></table></div>`;
-
-      const idsP = parseIdLines(u.pendientesText || "");
-      htmlPe =
-        idsP.length === 0
-          ? "<p class=\"subtle\">Sin unidades pendientes listadas.</p>"
-          : `<div class="table-scroll"><table class="data-table unidades-data-table"><thead><tr>
-            <th>ID</th><th>Cliente</th><th>Marca</th><th>Año</th>
-          </tr></thead><tbody>${idsP.map((id) => buildRowCellsSimpleId(id, map)).join("")}</tbody></table></div>`;
     } else {
-      const idsT = parseIdLines(u.enTallerText || "");
-      htmlEn =
-        idsT.length === 0
-          ? "<p class=\"subtle\">Sin unidades en taller.</p>"
-          : `<div class="table-scroll"><table class="data-table unidades-data-table"><thead><tr>
-            <th>ID</th><th>Cliente</th><th>Marca</th><th>Año</th>
-          </tr></thead><tbody>${idsT.map((id) => buildRowCellsSimpleId(id, map)).join("")}</tbody></table></div>`;
-
+      tituloPrincipal = `Unidades pendientes — ${monthKey}`;
       const idsP = parseIdLines(u.pendientesText || "");
-      htmlPe =
+      bodyHtml =
         idsP.length === 0
-          ? "<p class=\"subtle\">Sin unidades pendientes.</p>"
+          ? "<p class=\"subtle\">Sin unidades pendientes listadas para este mes.</p>"
           : `<div class="table-scroll"><table class="data-table unidades-data-table"><thead><tr>
             <th>ID</th><th>Cliente</th><th>Marca</th><th>Año</th>
           </tr></thead><tbody>${idsP.map((id) => buildRowCellsSimpleId(id, map)).join("")}</tbody></table></div>`;
     }
 
-    const titulo = `Mes ${monthKey}`;
     return `
       <section class="card unidades-panel-card">
-        <h2>Unidades — ${titulo}</h2>
+        <h2>${tituloPrincipal}</h2>
         <p class="subtle">Datos desde Captura. Cliente/Marca/Año desde <code>flota-settepi.csv</code> cuando el ID coincide.</p>
-        <h3 class="unidades-subtitle">En taller</h3>
-        ${isCarros ? "<p class=\"subtle\">Carros: color de fila = rango de días como en el gráfico apilado.</p>" : ""}
-        ${htmlEn}
-        <h3 class="unidades-subtitle" style="margin-top:1.25rem;">Pendientes</h3>
-        ${htmlPe}
+        ${bodyHtml}
         <div class="actions" style="margin-top:1rem;">
-          <button type="button" class="btn-outline unidades-export-btn" data-exp-ind="${indicador}" data-exp-mk="${monthKey}">Exportar tablas (CSV)</button>
+          <button type="button" class="btn-outline unidades-export-btn" data-exp-ind="${indicador}" data-exp-mk="${monthKey}">Exportar CSV</button>
         </div>
       </section>
     `;
@@ -202,15 +184,7 @@
             .join(",")
         );
       }
-      for (const id of parseIdLines(u.pendientesText || "")) {
-        const info = map.get(id) || {};
-        lines.push(["pendientes", id, "", "", info.cliente || "", info.marca || "", info.anio || ""].map(csvEscape).join(","));
-      }
     } else {
-      for (const id of parseIdLines(u.enTallerText || "")) {
-        const info = map.get(id) || {};
-        lines.push(["en_taller", id, "", "", info.cliente || "", info.marca || "", info.anio || ""].map(csvEscape).join(","));
-      }
       for (const id of parseIdLines(u.pendientesText || "")) {
         const info = map.get(id) || {};
         lines.push(["pendientes", id, "", "", info.cliente || "", info.marca || "", info.anio || ""].map(csvEscape).join(","));
@@ -255,6 +229,7 @@
   function reloadCaptureTextareas() {
     document.querySelectorAll(".unidades-capture-block").forEach((block) => {
       const indicador = block.getAttribute("data-unidades-indicador");
+      const modo = block.getAttribute("data-unidades-modo") || "pendientes";
       const selId = block.getAttribute("data-month-select-id");
       const sel = document.getElementById(selId);
       const mk = monthKeyFromSelectEl(sel);
@@ -263,8 +238,8 @@
       const u = getUnidadesMes(store, indicador, mk);
       const taE = block.querySelector('textarea[data-field="enTaller"]');
       const taP = block.querySelector('textarea[data-field="pendientes"]');
-      if (taE) taE.value = u.enTallerText || "";
-      if (taP) taP.value = u.pendientesText || "";
+      if (modo === "taller" && taE) taE.value = u.enTallerText || "";
+      if (modo === "pendientes" && taP) taP.value = u.pendientesText || "";
       const msg = block.querySelector(".unidades-capture-msg");
       if (msg) msg.textContent = "";
     });
@@ -274,6 +249,7 @@
 
   function saveBlock(block) {
     const indicador = block.getAttribute("data-unidades-indicador");
+    const modo = block.getAttribute("data-unidades-modo") || "pendientes";
     const selId = block.getAttribute("data-month-select-id");
     const sel = document.getElementById(selId);
     const mk = monthKeyFromSelectEl(sel);
@@ -285,9 +261,13 @@
     const taE = block.querySelector('textarea[data-field="enTaller"]');
     const taP = block.querySelector('textarea[data-field="pendientes"]');
     const store = getStore();
-    setUnidadesMesTexts(store, indicador, mk, taE ? taE.value : "", taP ? taP.value : "");
+    if (modo === "taller") {
+      setUnidadesMesTexts(store, indicador, mk, taE ? taE.value : "", "");
+    } else {
+      setUnidadesMesTexts(store, indicador, mk, "", taP ? taP.value : "");
+    }
     saveStore(store);
-    if (msg) msg.textContent = `Listas guardadas para ${mk}.`;
+    if (msg) msg.textContent = `Guardado para ${mk}.`;
   }
 
   window.initUnidadesCaptureUI = function initUnidadesCaptureUI() {

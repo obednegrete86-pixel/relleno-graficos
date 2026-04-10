@@ -154,22 +154,13 @@
         </section>
       </section>
 
-        <section class="card unidades-capture-block" data-unidades-indicador="carros" data-month-select-id="captureMonthSelect">
-          <h3>Listado de unidades (mes de captura)</h3>
-          <p class="subtle"><strong>En taller:</strong> una fila por unidad: ID, luego tabulador o coma, luego <strong>días en taller</strong>. En indicadores, el color de fila coincide con el gráfico (&lt;5, 6-30, 31-60, 61-100, &gt;100 días).</p>
-          <p class="subtle"><strong>Pendientes:</strong> solo ID, una unidad por línea. Cliente/Marca/Año se rellenan desde el catálogo Flota Settepi si el ID existe.</p>
-          <div class="unidades-two-col">
-            <div>
-              <label>En taller</label>
-              <textarea class="input-wide unidades-textarea" data-field="enTaller" rows="8" placeholder="5002,12"></textarea>
-            </div>
-            <div>
-              <label>Pendientes</label>
-              <textarea class="input-wide unidades-textarea" data-field="pendientes" rows="8" placeholder="6128"></textarea>
-            </div>
-          </div>
+        <section class="card unidades-capture-block" data-unidades-indicador="carros" data-unidades-modo="taller" data-month-select-id="captureMonthSelect">
+          <h3>Unidades en taller (mes de captura)</h3>
+          <p class="subtle">Una fila por unidad: <strong>ID</strong>, tabulador o coma, <strong>días en taller</strong>. En la página de indicadores el color de fila coincide con el gráfico (&lt;5, 6-30, 31-60, 61-100, &gt;100 días). Cliente/Marca/Año desde el catálogo Flota Settepi si el ID existe.</p>
+          <label for="unidadesCarrosTallerTa">Pegar aquí</label>
+          <textarea id="unidadesCarrosTallerTa" class="input-wide unidades-textarea" data-field="enTaller" rows="10" placeholder="5002,12"></textarea>
           <div class="actions">
-            <button type="button" class="btn-primary unidades-guardar-btn">Guardar listas</button>
+            <button type="button" class="btn-primary unidades-guardar-btn">Guardar unidades</button>
             <button type="button" class="btn-outline unidades-exportar-local-btn">Exportar CSV</button>
           </div>
           <p class="unidades-capture-msg status"></p>
@@ -226,21 +217,13 @@
           </section>
         </section>
 
-        <section class="card unidades-capture-block" data-unidades-indicador="semaforo" data-month-select-id="semaforoCaptureMonthSelect">
-          <h3>Unidades — Semáforo de llantas</h3>
-          <p class="subtle">IDs de unidad, una por línea en cada lista. Se enriquecen con Cliente/Marca/Año desde el catálogo.</p>
-          <div class="unidades-two-col">
-            <div>
-              <label>En taller</label>
-              <textarea class="input-wide unidades-textarea" data-field="enTaller" rows="6" placeholder="5002"></textarea>
-            </div>
-            <div>
-              <label>Pendientes</label>
-              <textarea class="input-wide unidades-textarea" data-field="pendientes" rows="6"></textarea>
-            </div>
-          </div>
+        <section class="card unidades-capture-block" data-unidades-indicador="semaforo" data-unidades-modo="pendientes" data-month-select-id="semaforoCaptureMonthSelect">
+          <h3>Unidades pendientes — Semáforo de llantas</h3>
+          <p class="subtle">Solo ID de unidad, una por línea. Cliente/Marca/Año desde el catálogo Flota Settepi.</p>
+          <label for="unidadesSemaforoTa">Pegar aquí</label>
+          <textarea id="unidadesSemaforoTa" class="input-wide unidades-textarea" data-field="pendientes" rows="10" placeholder="5002"></textarea>
           <div class="actions">
-            <button type="button" class="btn-primary unidades-guardar-btn">Guardar listas</button>
+            <button type="button" class="btn-primary unidades-guardar-btn">Guardar unidades</button>
             <button type="button" class="btn-outline unidades-exportar-local-btn">Exportar CSV</button>
           </div>
           <p class="unidades-capture-msg status"></p>
@@ -303,39 +286,13 @@
           </section>
         </section>
 
-        <section class="card">
-          <h3>Vista gráfica (mismos datos)</h3>
-          <p class="subtle">Semanal: eje Y de 0% a 120%. También disponible en el menú <strong>Evaluacion Flota 360</strong>.</p>
-          <section class="indicator-grid-top">
-            <article class="card chart-card">
-              <canvas id="captureFlota360MonthlyChart"></canvas>
-            </article>
-            <article class="card chart-card">
-              <canvas id="captureFlota360DailyChart"></canvas>
-            </article>
-          </section>
-          <section class="indicator-grid-top" style="margin-top:1rem;">
-            <article class="card chart-card weekly-wide">
-              <canvas id="captureFlota360WeeklyChart"></canvas>
-            </article>
-          </section>
-        </section>
-
-        <section class="card unidades-capture-block" data-unidades-indicador="flota360" data-month-select-id="flota360CaptureMonthSelect">
-          <h3>Unidades — Evaluación Flota 360</h3>
-          <p class="subtle">IDs una por línea. Catálogo Flota Settepi para Cliente/Marca/Año.</p>
-          <div class="unidades-two-col">
-            <div>
-              <label>En taller</label>
-              <textarea class="input-wide unidades-textarea" data-field="enTaller" rows="6"></textarea>
-            </div>
-            <div>
-              <label>Pendientes</label>
-              <textarea class="input-wide unidades-textarea" data-field="pendientes" rows="6"></textarea>
-            </div>
-          </div>
+        <section class="card unidades-capture-block" data-unidades-indicador="flota360" data-unidades-modo="pendientes" data-month-select-id="flota360CaptureMonthSelect">
+          <h3>Unidades pendientes — Evaluación Flota 360</h3>
+          <p class="subtle">Solo ID, una por línea. Catálogo Flota Settepi para Cliente/Marca/Año.</p>
+          <label for="unidadesFlota360Ta">Pegar aquí</label>
+          <textarea id="unidadesFlota360Ta" class="input-wide unidades-textarea" data-field="pendientes" rows="10"></textarea>
           <div class="actions">
-            <button type="button" class="btn-primary unidades-guardar-btn">Guardar listas</button>
+            <button type="button" class="btn-primary unidades-guardar-btn">Guardar unidades</button>
             <button type="button" class="btn-outline unidades-exportar-local-btn">Exportar CSV</button>
           </div>
           <p class="unidades-capture-msg status"></p>
@@ -398,21 +355,13 @@
           </section>
         </section>
 
-        <section class="card unidades-capture-block" data-unidades-indicador="mtto" data-month-select-id="mttoPreventivoCaptureMonthSelect">
-          <h3>Unidades — MTTO preventivo</h3>
-          <p class="subtle">IDs una por línea. Catálogo Flota Settepi para Cliente/Marca/Año.</p>
-          <div class="unidades-two-col">
-            <div>
-              <label>En taller</label>
-              <textarea class="input-wide unidades-textarea" data-field="enTaller" rows="6"></textarea>
-            </div>
-            <div>
-              <label>Pendientes</label>
-              <textarea class="input-wide unidades-textarea" data-field="pendientes" rows="6"></textarea>
-            </div>
-          </div>
+        <section class="card unidades-capture-block" data-unidades-indicador="mtto" data-unidades-modo="pendientes" data-month-select-id="mttoPreventivoCaptureMonthSelect">
+          <h3>Unidades pendientes — MTTO preventivo</h3>
+          <p class="subtle">Solo ID, una por línea. Catálogo Flota Settepi para Cliente/Marca/Año.</p>
+          <label for="unidadesMttoTa">Pegar aquí</label>
+          <textarea id="unidadesMttoTa" class="input-wide unidades-textarea" data-field="pendientes" rows="10"></textarea>
           <div class="actions">
-            <button type="button" class="btn-primary unidades-guardar-btn">Guardar listas</button>
+            <button type="button" class="btn-primary unidades-guardar-btn">Guardar unidades</button>
             <button type="button" class="btn-outline unidades-exportar-local-btn">Exportar CSV</button>
           </div>
           <p class="unidades-capture-msg status"></p>
@@ -429,9 +378,6 @@
     <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
     <script src="app.js"></script>
     <script src="import-excel.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script>
-    <script src="flota360.js"></script>
     <script src="unidades.js"></script>
     <script src="capture.js"></script>
   </body>
