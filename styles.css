@@ -1,0 +1,481 @@
+:root {
+  --bg: #f4f6fb;
+  --surface: #ffffff;
+  --surface-muted: #f8faff;
+  --text: #1f2937;
+  --muted: #6b7280;
+  --primary: #0f4c81;
+  --primary-strong: #0a3558;
+  --border: #d6deeb;
+  --ok: #1fa453;
+  --info: #1f6fd6;
+  --warn: #f0b429;
+  --alert: #f4841f;
+  --danger: #d92d20;
+  --shadow: 0 8px 30px rgba(15, 76, 129, 0.08);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Arial Narrow", Arial, sans-serif;
+  color: var(--text);
+  background: var(--bg);
+}
+
+.container {
+  width: min(1440px, calc(100% - 2rem));
+  margin: 1rem auto 2rem;
+}
+
+.topbar {
+  background: linear-gradient(110deg, var(--primary-strong), var(--primary));
+  color: #fff;
+  padding: 0.95rem 1rem;
+  box-shadow: var(--shadow);
+}
+
+.topbar-inner {
+  width: min(1440px, calc(100% - 2rem));
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  min-width: 0;
+}
+
+.brand-logo {
+  height: 38px;
+  width: auto;
+  flex-shrink: 0;
+  display: block;
+  object-fit: contain;
+}
+
+.title-group h1 {
+  margin: 0;
+  font-size: 1.2rem;
+  letter-spacing: 0.3px;
+}
+
+.title-group p {
+  margin: 0.15rem 0 0;
+  font-size: 0.88rem;
+  color: #d6e4ff;
+}
+
+.nav {
+  display: flex;
+  gap: 0.65rem;
+}
+
+.nav a {
+  color: #fff;
+  text-decoration: none;
+  padding: 0.5rem 0.85rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  font-size: 0.88rem;
+}
+
+.nav a.active,
+.nav a:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.capture-tables {
+  margin-top: 1rem;
+}
+
+.capture-section {
+  display: none;
+}
+
+.capture-section.active {
+  display: block;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  padding: 1rem;
+}
+
+.card h2,
+.card h3 {
+  margin: 0 0 0.75rem;
+}
+
+.subtle {
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+.meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+  margin-bottom: 0.8rem;
+}
+
+.chip {
+  background: var(--surface-muted);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.35rem 0.7rem;
+  font-size: 0.8rem;
+}
+
+label {
+  font-size: 0.86rem;
+  color: var(--muted);
+}
+
+input[type="number"] {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.45rem 0.6rem;
+  font-size: 0.9rem;
+}
+
+.month-select {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.35rem 0.55rem;
+  font-size: 0.86rem;
+  background: #fff;
+}
+
+input[type="number"]:focus {
+  outline: 2px solid #cfe2ff;
+  border-color: #9cbaf0;
+}
+
+.input-row {
+  display: grid;
+  grid-template-columns: minmax(170px, 260px) minmax(140px, 220px);
+  gap: 0.7rem;
+  align-items: end;
+}
+
+.monthly-grid {
+  margin-top: 0.55rem;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(84px, 1fr));
+  gap: 0.5rem;
+}
+
+/* Rejilla mensual en captura: menos ancho mínimo por celda para evitar desbordes */
+.capture-section .monthly-grid {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 0.4rem;
+}
+
+.capture-section .monthly-item {
+  min-width: 0;
+  padding: 0.38rem 0.32rem;
+}
+
+.capture-section .monthly-item label {
+  font-size: 0.72rem;
+}
+
+.capture-section .monthly-item input {
+  padding: 0.28rem 0.2rem;
+  font-size: 0.78rem;
+}
+
+.monthly-item {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.45rem;
+  background: #fbfdff;
+}
+
+.monthly-item label {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-size: 0.78rem;
+}
+
+.monthly-item input {
+  font-size: 0.84rem;
+  padding: 0.35rem 0.45rem;
+}
+
+.actions {
+  margin-top: 1rem;
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+button {
+  border: 1px solid transparent;
+  border-radius: 8px;
+  padding: 0.55rem 0.8rem;
+  cursor: pointer;
+  font-size: 0.88rem;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: #fff;
+}
+
+.btn-outline {
+  background: #fff;
+  border-color: var(--border);
+}
+
+a.btn-outline {
+  display: inline-block;
+  text-decoration: none;
+  color: var(--text);
+  padding: 0.55rem 0.8rem;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+
+.btn-danger {
+  background: #fff2f2;
+  border-color: #ffcccc;
+  color: #8d1f1f;
+}
+
+.status {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.status-error {
+  color: #8d1f1f;
+}
+
+.import-excel-row {
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 0.75rem 1rem;
+}
+
+.file-input-label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 0.5rem;
+}
+
+.table-scroll {
+  width: 100%;
+  overflow: auto;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+.table-scroll table {
+  margin-top: 0;
+  min-width: 720px;
+}
+
+/* Captura (index): tablas angostas, sin min-width que fuerce scroll horizontal */
+.capture-tables .table-scroll table {
+  min-width: 0;
+  width: 100%;
+  table-layout: fixed;
+}
+
+.capture-tables .table-scroll th,
+.capture-tables .table-scroll td {
+  padding: 0.18rem 0.1rem;
+  font-size: 0.7rem;
+  vertical-align: middle;
+}
+
+.capture-tables .table-scroll th {
+  line-height: 1.15;
+  word-break: break-word;
+  hyphens: auto;
+}
+
+.capture-tables .table-scroll input[type="number"] {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  padding: 0.2rem 0.1rem;
+  font-size: 0.72rem;
+  box-sizing: border-box;
+}
+
+/* Carros: 6 columnas (semana + 5 categorías) */
+.capture-tables .table-scroll table:has(thead th:nth-child(6):last-child) th:first-child,
+.capture-tables .table-scroll table:has(thead th:nth-child(6):last-child) td:first-child {
+  width: 2.65rem;
+}
+
+/* Semáforo, Flota 360, MTTO: 3 columnas */
+.capture-tables .table-scroll table:has(thead th:nth-child(3):last-child) th:first-child,
+.capture-tables .table-scroll table:has(thead th:nth-child(3):last-child) td:first-child {
+  width: 2.85rem;
+}
+
+.table-scroll-weekly {
+  max-height: 390px;
+}
+
+.table-scroll-daily {
+  max-height: 390px;
+}
+
+.table-scroll thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+th,
+td {
+  border: 1px solid var(--border);
+  padding: 0.35rem;
+  font-size: 0.8rem;
+  text-align: center;
+}
+
+th {
+  background: #f3f7ff;
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin: 0.6rem 0 0.2rem;
+}
+
+.legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.78rem;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+}
+
+.chart-card {
+  height: 350px;
+}
+
+.chart-card canvas {
+  width: 100% !important;
+  height: 285px !important;
+}
+
+.indicator-grid-top {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.weekly-wide {
+  grid-column: span 2;
+}
+
+.month-panel {
+  display: grid;
+  gap: 1rem;
+}
+
+.month-panel h2 {
+  margin: 0;
+}
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.tag {
+  font-size: 0.76rem;
+  border-radius: 999px;
+  padding: 0.28rem 0.6rem;
+  border: 1px solid var(--border);
+  background: #f8faff;
+}
+
+.tag.current {
+  background: #e8f4ff;
+  border-color: #bcd9ff;
+  color: #1f5ca8;
+}
+
+.tag.previous {
+  background: #f0f2f5;
+  border-color: #d9e0ea;
+}
+
+@media (max-width: 1120px) {
+  .grid-2 {
+    grid-template-columns: 1fr;
+  }
+
+  .indicator-grid-top {
+    grid-template-columns: 1fr;
+  }
+
+  .weekly-wide {
+    grid-column: auto;
+  }
+}
+
+@media (max-width: 700px) {
+  .container {
+    width: calc(100% - 1rem);
+  }
+
+  .input-row {
+    grid-template-columns: 1fr;
+  }
+
+  .monthly-grid {
+    grid-template-columns: repeat(3, minmax(84px, 1fr));
+  }
+
+  .chart-card {
+    height: 310px;
+  }
+
+  .chart-card canvas {
+    height: 250px !important;
+  }
+}

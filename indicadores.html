@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indicadores de Mantenimiento | Carros Taller</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="topbar-inner">
+        <div class="brand">
+          <img class="brand-logo" src="assets/settepi-logo.svg" width="140" height="34" alt="Settepi" />
+          <div class="title-group">
+            <h1>Indicadores de Mantenimiento</h1>
+            <p id="compareLabel">Carros Taller — comparativo de periodos</p>
+          </div>
+        </div>
+        <nav class="nav">
+          <a href="index.html">Captura</a>
+          <a class="active" href="indicadores.html">Carros Taller</a>
+          <a href="semaforo-llantas.html">Semaforo de Llantas</a>
+          <a href="evaluacion-flota-360.html">Evaluacion Flota 360</a>
+          <a href="mtto-preventivo.html">MTTO Preventivo</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="card" style="margin-bottom:1rem;">
+        <div class="panel-header">
+          <h2 id="currentMonthName">-</h2>
+          <div class="meta-row" style="margin:0;">
+            <label for="indicatorMonthSelect">Mes:</label>
+            <select id="indicatorMonthSelect" class="month-select"></select>
+            <span class="tag current">Mes actual</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="indicator-grid-top">
+        <article class="card chart-card">
+          <div class="panel-header" style="margin-bottom:0.5rem;">
+            <h2 id="yearlyTitle">Mensual 2026</h2>
+            <span class="tag current">Anual</span>
+          </div>
+          <canvas id="yearlyMonthlyChart"></canvas>
+        </article>
+
+        <article class="card chart-card">
+          <canvas id="currentDailyChart"></canvas>
+        </article>
+      </section>
+
+      <section class="indicator-grid-top" style="margin-top:1rem;">
+        <article class="card chart-card weekly-wide">
+          <canvas id="currentWeeklyChart"></canvas>
+        </article>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+    <script src="indicators.js"></script>
+  </body>
+</html>

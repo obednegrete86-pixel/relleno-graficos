@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indicadores de Mantenimiento | Captura</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="topbar-inner">
+        <div class="brand">
+          <img class="brand-logo" src="assets/settepi-logo.svg" width="140" height="34" alt="Settepi" />
+          <div class="title-group">
+            <h1>Indicadores de Mantenimiento</h1>
+            <p>Captura de UCT — mensual, semanal ISO y diaria</p>
+          </div>
+        </div>
+        <nav class="nav">
+          <a class="active" href="index.html">Captura</a>
+          <a href="indicadores.html">Carros Taller</a>
+          <a href="semaforo-llantas.html">Semaforo de Llantas</a>
+          <a href="evaluacion-flota-360.html">Evaluacion Flota 360</a>
+          <a href="mtto-preventivo.html">MTTO Preventivo</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container" id="loginContainer">
+      <section class="card" style="max-width:420px; margin:1rem auto;">
+        <h2>Acceso a Captura</h2>
+        <p class="subtle">Ingresa usuario y contraseña para habilitar el llenado.</p>
+        <div class="input-row">
+          <div>
+            <label for="loginUser">Usuario</label>
+            <input id="loginUser" type="text" autocomplete="username">
+          </div>
+          <div>
+            <label for="loginPass">Contraseña</label>
+            <input id="loginPass" type="password" autocomplete="current-password">
+          </div>
+        </div>
+        <div class="actions">
+          <button id="loginBtn" class="btn-primary">Entrar</button>
+        </div>
+        <p id="loginMessage" class="status"></p>
+      </section>
+    </main>
+
+    <main class="container" id="captureApp" style="display:none;">
+      <section class="card">
+        <h2>Importar desde Excel</h2>
+        <p class="subtle">Descarga la plantilla, llena las hojas que necesites e importa el archivo. Los valores se fusionan con los datos ya guardados en este navegador.</p>
+        <div class="meta-row import-excel-row">
+          <a class="btn-outline" href="assets/plantilla-importacion-indicadores.xlsx" download>Descargar plantilla</a>
+          <label class="file-input-label">
+            <span class="subtle">Archivo</span>
+            <input id="importExcelInput" type="file" accept=".xlsx,.xls,.xlsm,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel">
+          </label>
+          <button id="importExcelBtn" type="button" class="btn-primary">Importar</button>
+        </div>
+        <p id="importExcelMessage" class="status"></p>
+      </section>
+      <section class="card">
+        <div class="meta-row">
+          <label for="captureIndicatorSelect">Indicador a capturar:</label>
+          <select id="captureIndicatorSelect" class="month-select">
+            <option value="carros">Carros Taller</option>
+            <option value="semaforo">Semaforo de Llantas</option>
+            <option value="flota360">Evaluacion de Flota 360</option>
+            <option value="mtto">MTTO Preventivo</option>
+          </select>
+        </div>
+      </section>
+
+      <section id="carrosCaptureSection" class="capture-section active">
+      <section class="grid-2">
+        <article class="card">
+          <h2>Mes de referencia</h2>
+          <div class="meta-row">
+            <div class="chip" id="previousMonthLabel">-</div>
+          </div>
+          <div id="previousSummary" class="meta-row"></div>
+          <p class="subtle">Este panel muestra cómo cerró el mes pasado.</p>
+        </article>
+
+        <article class="card">
+          <h2>Mes de captura</h2>
+          <div class="meta-row">
+            <div class="chip" id="currentMonthLabel">-</div>
+            <label for="captureMonthSelect">Cambiar mes:</label>
+            <select id="captureMonthSelect" class="month-select"></select>
+            <div class="chip">Estado: <strong id="statusLabel">-</strong></div>
+            <div class="chip">Meta general: <strong>18 UCT</strong></div>
+          </div>
+          <div>
+            <label>UCT mensual (12 meses, barras simples)</label>
+            <div id="monthlyGrid" class="monthly-grid"></div>
+          </div>
+          <div class="actions">
+            <button id="saveBtn" class="btn-primary">Guardar borrador</button>
+            <button id="closeBtn" class="btn-outline">Cerrar mes</button>
+            <button id="reopenBtn" class="btn-danger">Reabrir mes</button>
+          </div>
+          <p id="statusMessage" class="status">Listo para capturar.</p>
+        </article>
+      </section>
+
+      <section class="grid-2 capture-tables">
+        <section class="card">
+          <h3>Captura semanal (Semana ISO, barras apiladas)</h3>
+          <div class="legend">
+            <span class="legend-item"><span class="dot" style="background:#B5E6A2"></span>&lt;5 DIAS</span>
+            <span class="legend-item"><span class="dot" style="background:#94DCF8"></span>6-30 DIAS</span>
+            <span class="legend-item"><span class="dot" style="background:#FFFF00"></span>31-60 DIAS</span>
+            <span class="legend-item"><span class="dot" style="background:#FFC000"></span>61-100 DIAS</span>
+            <span class="legend-item"><span class="dot" style="background:#FF0000"></span>&gt;100 DIAS</span>
+          </div>
+          <div class="table-scroll table-scroll-weekly">
+            <table>
+              <thead>
+                <tr>
+                  <th>Semana ISO</th>
+                  <th>&lt;5 DIAS</th>
+                  <th>6-30 DIAS</th>
+                  <th>31-60 DIAS</th>
+                  <th>61-100 DIAS</th>
+                  <th>&gt;100 DIAS</th>
+                </tr>
+              </thead>
+              <tbody id="weeklyTbody"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="card">
+          <h3>Captura diaria (días del mes actual)</h3>
+          <p class="subtle">El eje diario se ajusta automáticamente según el mes en curso (28/29/30/31).</p>
+          <div class="table-scroll table-scroll-daily">
+            <table>
+              <thead>
+                <tr>
+                  <th>Día</th>
+                  <th>&lt;5 DIAS</th>
+                  <th>6-30 DIAS</th>
+                  <th>31-60 DIAS</th>
+                  <th>61-100 DIAS</th>
+                  <th>&gt;100 DIAS</th>
+                </tr>
+              </thead>
+              <tbody id="dailyTbody"></tbody>
+            </table>
+          </div>
+        </section>
+      </section>
+      </section>
+
+      <section id="semaforoCaptureSection" class="capture-section">
+        <section class="card">
+          <h2>Semaforo de Llantas — Captura</h2>
+          <div class="meta-row">
+            <div class="chip" id="semaforoCurrentMonthLabel">-</div>
+            <label for="semaforoCaptureMonthSelect">Cambiar mes:</label>
+            <select id="semaforoCaptureMonthSelect" class="month-select"></select>
+          </div>
+          <p class="subtle">Captura solo dos datos: Porcentaje y Pendientes.</p>
+        </section>
+
+        <section class="card">
+          <h3>SEMAFORO DE LLANTAS MENSUAL</h3>
+          <div id="semaforoMonthlyGrid" class="monthly-grid"></div>
+        </section>
+
+        <section class="grid-2 capture-tables">
+          <section class="card">
+            <h3>SEMAFORO DE LLANTAS SEMANAL</h3>
+            <div class="table-scroll table-scroll-weekly">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Semana ISO</th>
+                    <th>Porcentaje (%)</th>
+                    <th>Pendientes</th>
+                  </tr>
+                </thead>
+                <tbody id="semaforoWeeklyTbody"></tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="card">
+            <h3>SEMAFORO DE LLANTAS DIARIO</h3>
+            <div class="table-scroll table-scroll-daily">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Dia</th>
+                    <th>Porcentaje (%)</th>
+                    <th>Pendientes</th>
+                  </tr>
+                </thead>
+                <tbody id="semaforoDailyTbody"></tbody>
+              </table>
+            </div>
+          </section>
+        </section>
+        <section class="card">
+          <div class="actions">
+            <button id="saveSemaforoBtn" class="btn-primary">Guardar Semaforo</button>
+          </div>
+          <p id="semaforoStatusMessage" class="status">Listo para capturar Semaforo.</p>
+        </section>
+      </section>
+
+      <section id="flota360CaptureSection" class="capture-section">
+        <section class="card">
+          <h2>Evaluacion de Flota 360 — Captura</h2>
+          <div class="meta-row">
+            <div class="chip" id="flota360CurrentMonthLabel">-</div>
+            <label for="flota360CaptureMonthSelect">Cambiar mes:</label>
+            <select id="flota360CaptureMonthSelect" class="month-select"></select>
+          </div>
+          <p class="subtle">Captura: Porcentaje y Pendientes (misma estructura que Semaforo de Llantas).</p>
+        </section>
+
+        <section class="card">
+          <h3>EVALUACION FLOTA 360 MENSUAL</h3>
+          <div id="flota360MonthlyGrid" class="monthly-grid"></div>
+        </section>
+
+        <section class="grid-2 capture-tables">
+          <section class="card">
+            <h3>EVALUACION FLOTA 360 SEMANAL</h3>
+            <div class="table-scroll table-scroll-weekly">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Semana ISO</th>
+                    <th>Porcentaje (%)</th>
+                    <th>Pendientes</th>
+                  </tr>
+                </thead>
+                <tbody id="flota360WeeklyTbody"></tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="card">
+            <h3>EVALUACION FLOTA 360 DIARIO</h3>
+            <div class="table-scroll table-scroll-daily">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Dia</th>
+                    <th>Porcentaje (%)</th>
+                    <th>Pendientes</th>
+                  </tr>
+                </thead>
+                <tbody id="flota360DailyTbody"></tbody>
+              </table>
+            </div>
+          </section>
+        </section>
+        <section class="card">
+          <div class="actions">
+            <button id="saveFlota360Btn" class="btn-primary">Guardar Evaluacion Flota 360</button>
+          </div>
+          <p id="flota360StatusMessage" class="status">Listo para capturar Evaluacion Flota 360.</p>
+        </section>
+      </section>
+
+      <section id="mttoPreventivoCaptureSection" class="capture-section">
+        <section class="card">
+          <h2>MTTO Preventivo — Captura</h2>
+          <div class="meta-row">
+            <div class="chip" id="mttoPreventivoCurrentMonthLabel">-</div>
+            <label for="mttoPreventivoCaptureMonthSelect">Cambiar mes:</label>
+            <select id="mttoPreventivoCaptureMonthSelect" class="month-select"></select>
+          </div>
+          <p class="subtle">Captura: Porcentaje y Pendientes (misma estructura que los demas indicadores).</p>
+        </section>
+
+        <section class="card">
+          <h3>MTTO PREVENTIVO MENSUAL</h3>
+          <div id="mttoPreventivoMonthlyGrid" class="monthly-grid"></div>
+        </section>
+
+        <section class="grid-2 capture-tables">
+          <section class="card">
+            <h3>MTTO PREVENTIVO SEMANAL</h3>
+            <div class="table-scroll table-scroll-weekly">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Semana ISO</th>
+                    <th>Porcentaje (%)</th>
+                    <th>Pendientes</th>
+                  </tr>
+                </thead>
+                <tbody id="mttoPreventivoWeeklyTbody"></tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="card">
+            <h3>MTTO PREVENTIVO DIARIO</h3>
+            <div class="table-scroll table-scroll-daily">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Dia</th>
+                    <th>Porcentaje (%)</th>
+                    <th>Pendientes</th>
+                  </tr>
+                </thead>
+                <tbody id="mttoPreventivoDailyTbody"></tbody>
+              </table>
+            </div>
+          </section>
+        </section>
+        <section class="card">
+          <div class="actions">
+            <button id="saveMttoPreventivoBtn" class="btn-primary">Guardar MTTO Preventivo</button>
+          </div>
+          <p id="mttoPreventivoStatusMessage" class="status">Listo para capturar MTTO Preventivo.</p>
+        </section>
+      </section>
+    </main>
+
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
+    <script src="app.js"></script>
+    <script src="import-excel.js"></script>
+    <script src="capture.js"></script>
+  </body>
+</html>

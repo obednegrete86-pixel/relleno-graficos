@@ -1,0 +1,10 @@
+{
+  "name": "relleno-graficos",
+  "private": true,
+  "scripts": {
+    "build:template": "node scripts/generate-import-template.cjs"
+  },
+  "devDependencies": {
+    "xlsx": "^0.18.5"
+  }
+}

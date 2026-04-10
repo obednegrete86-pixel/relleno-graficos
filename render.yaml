@@ -1,0 +1,10 @@
+# Sitio estático: HTML/JS/CSS en la raíz del repositorio.
+# En Render: New → Blueprint → conecta este repo, o crea un Static Site manualmente
+# (Build: vacío o el mismo comando; Publish directory: .)
+
+services:
+  - type: web
+    name: relleno-graficos
+    runtime: static
+    buildCommand: 'echo "No build"'
+    staticPublishPath: .
