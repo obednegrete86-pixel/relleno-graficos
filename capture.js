@@ -123,6 +123,8 @@ function initCarrosCapture() {
     if (typeof window.reloadUnidadesCaptureTextareas === "function") window.reloadUnidadesCaptureTextareas();
   });
   document.getElementById("saveBtn").addEventListener("click", () => {
+    syncStoreFromLocal(store);
+    captureMonth = ensureMonthData(store, toMonthKey(selectedDate), selectedDate);
     if (captureMonth.status === "closed") return setStatus("Este mes ya está cerrado. No se permiten cambios.");
     const currentYearly = ensureYearlyData(store, selectedDate.getFullYear());
     readFormIntoMonth(store, captureMonth, selectedDate);
@@ -132,6 +134,8 @@ function initCarrosCapture() {
     setStatus(`Datos guardados para ${getMonthLabel(selectedDate)}.`);
   });
   document.getElementById("closeBtn").addEventListener("click", () => {
+    syncStoreFromLocal(store);
+    captureMonth = ensureMonthData(store, toMonthKey(selectedDate), selectedDate);
     const currentYearly = ensureYearlyData(store, selectedDate.getFullYear());
     readFormIntoMonth(store, captureMonth, selectedDate);
     captureMonth.monthlyTotalUCT = Number(currentYearly[String(selectedDate.getMonth() + 1)] || 0);
@@ -142,6 +146,8 @@ function initCarrosCapture() {
     setStatus(`Mes ${getMonthLabel(selectedDate)} cerrado.`);
   });
   document.getElementById("reopenBtn").addEventListener("click", () => {
+    syncStoreFromLocal(store);
+    captureMonth = ensureMonthData(store, toMonthKey(selectedDate), selectedDate);
     captureMonth.status = "open";
     captureMonth.updatedAt = new Date().toISOString();
     saveStore(store);
@@ -296,6 +302,7 @@ function initSemaforoCapture() {
     if (typeof window.reloadUnidadesCaptureTextareas === "function") window.reloadUnidadesCaptureTextareas();
   });
   document.getElementById("saveSemaforoBtn").addEventListener("click", () => {
+    syncStoreFromLocal(store);
     const monthData = ensureSemaforoMonthData(store, toMonthKey(selectedDate), selectedDate);
     const yearly = ensureSemaforoYearlyData(store, selectedDate.getFullYear());
     readSemaforoForm(yearly, monthData, selectedDate);
@@ -336,6 +343,7 @@ function initFlota360Capture() {
     if (typeof window.reloadUnidadesCaptureTextareas === "function") window.reloadUnidadesCaptureTextareas();
   });
   document.getElementById("saveFlota360Btn").addEventListener("click", () => {
+    syncStoreFromLocal(store);
     const monthData = ensureFlota360MonthData(store, toMonthKey(selectedDate), selectedDate);
     const yearly = ensureFlota360YearlyData(store, selectedDate.getFullYear());
     readFlota360Form(yearly, monthData, selectedDate);
@@ -443,6 +451,7 @@ function initMttoPreventivoCapture() {
     if (typeof window.reloadUnidadesCaptureTextareas === "function") window.reloadUnidadesCaptureTextareas();
   });
   document.getElementById("saveMttoPreventivoBtn").addEventListener("click", () => {
+    syncStoreFromLocal(store);
     const monthData = ensureMttoPreventivoMonthData(store, toMonthKey(selectedDate), selectedDate);
     const yearly = ensureMttoPreventivoYearlyData(store, selectedDate.getFullYear());
     readMttoPreventivoForm(yearly, monthData, selectedDate);
