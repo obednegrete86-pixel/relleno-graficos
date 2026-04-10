@@ -1,6 +1,6 @@
 # Indicadores de mantenimiento (relleno-gráficos)
 
-Aplicación estática (HTML, CSS, JavaScript) para captura de indicadores y gráficos. Los datos viven en `localStorage` del navegador.
+Gráficas de mantenimiento para Settepi. Aplicación estática (HTML, CSS, JavaScript) para captura de indicadores y gráficos. Los datos viven en `localStorage` del navegador.
 
 ## Antes de publicar en internet
 
