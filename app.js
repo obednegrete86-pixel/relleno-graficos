@@ -415,3 +415,124 @@ function diasEnTallerToCategory(dias) {
   if (d <= 100) return "d61_100";
   return "gt100";
 }
+
+const SHARE_QUERY_KEY = "share";
+const SHARE_URL_WARN_LENGTH = 150000;
+
+function localStorageHasShareableData() {
+  const raw = localStorage.getItem(STORAGE_KEY);
+  if (!raw || raw.length < 8) return false;
+  try {
+    const o = JSON.parse(raw);
+    return o && typeof o === "object" && Object.keys(o).length > 0;
+  } catch {
+    return false;
+  }
+}
+
+function stripShareQueryFromUrl() {
+  try {
+    const u = new URL(window.location.href);
+    if (!u.searchParams.has(SHARE_QUERY_KEY)) return;
+    u.searchParams.delete(SHARE_QUERY_KEY);
+    const qs = u.searchParams.toString();
+    window.history.replaceState({}, "", u.pathname + (qs ? `?${qs}` : "") + u.hash);
+  } catch (_) {
+    /* ignore */
+  }
+}
+
+/** Aplica datos embebidos en ?share= (LZ-String). Debe ejecutarse antes de leer gráficos. */
+function applySharedSnapshotFromUrl() {
+  let params;
+  try {
+    params = new URLSearchParams(window.location.search);
+  } catch {
+    return false;
+  }
+  const compressed = params.get(SHARE_QUERY_KEY);
+  if (!compressed) return false;
+  if (typeof LZString === "undefined") {
+    console.warn("LZString no cargado: no se puede aplicar el enlace compartido.");
+    return false;
+  }
+  const json = LZString.decompressFromEncodedURIComponent(compressed);
+  if (json == null || json === "") {
+    console.warn("Enlace compartido inválido o corrupto.");
+    stripShareQueryFromUrl();
+    return false;
+  }
+  let data;
+  try {
+    data = JSON.parse(json);
+  } catch {
+    stripShareQueryFromUrl();
+    return false;
+  }
+  if (!data || typeof data !== "object") {
+    stripShareQueryFromUrl();
+    return false;
+  }
+  if (localStorageHasShareableData()) {
+    if (!window.confirm("Este navegador ya tiene datos guardados. ¿Reemplazarlos por los del enlace compartido?")) {
+      stripShareQueryFromUrl();
+      return false;
+    }
+  }
+  saveStore(data);
+  stripShareQueryFromUrl();
+  window.__SHARED_SNAPSHOT_APPLIED__ = true;
+  return true;
+}
+
+function buildShareUrl(targetPage) {
+  if (typeof LZString === "undefined") throw new Error("LZString no disponible");
+  const store = getStore();
+  const json = JSON.stringify(store);
+  const compressed = LZString.compressToEncodedURIComponent(json);
+  const page = targetPage || "indicadores.html";
+  const u = new URL(page, window.location.href);
+  u.searchParams.set(SHARE_QUERY_KEY, compressed);
+  return u.href;
+}
+
+async function copyShareableLink(messageEl, targetPage) {
+  const msg = typeof messageEl === "string" ? document.getElementById(messageEl) : messageEl;
+  try {
+    const url = buildShareUrl(targetPage);
+    if (url.length > SHARE_URL_WARN_LENGTH) {
+      if (msg) {
+        msg.textContent =
+          "Los datos son demasiado grandes para un solo enlace. Usa importar/exportar Excel o reduce listas de unidades.";
+      }
+      return;
+    }
+    await navigator.clipboard.writeText(url);
+    if (msg) {
+      msg.textContent =
+        "Enlace copiado. Quien lo abra verá estos datos en su navegador (debe aceptar si ya tenía datos guardados). El enlace puede leerse por cualquiera que lo tenga.";
+    }
+  } catch (err) {
+    console.error(err);
+    if (msg) msg.textContent = "No se pudo copiar al portapapeles. Prueba con HTTPS o otro navegador.";
+  }
+}
+
+function initShareLinkControls() {
+  const capBtn = document.getElementById("copyShareUrlBtn");
+  if (capBtn) {
+    capBtn.addEventListener("click", () => {
+      copyShareableLink(document.getElementById("shareUrlMessage"), "indicadores.html");
+    });
+  }
+  document.querySelectorAll(".share-url-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const page = window.location.pathname.split("/").pop() || "indicadores.html";
+      const msg = btn.closest(".card")?.querySelector(".share-url-msg");
+      copyShareableLink(msg, page || "indicadores.html");
+    });
+  });
+}
+
+applySharedSnapshotFromUrl();
+initShareLinkControls();

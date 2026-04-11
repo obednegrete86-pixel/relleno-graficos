@@ -30,6 +30,14 @@
 
     <main class="container">
       <section class="card" style="margin-bottom:1rem;">
+        <h2 style="font-size:1.05rem; margin-bottom:0.35rem;">Compartir esta vista</h2>
+        <p class="subtle">Copia un enlace con los datos actuales. Al abrirlo, se cargan en el navegador de quien reciba el enlace.</p>
+        <div class="actions">
+          <button type="button" class="btn-outline share-url-btn">Copiar enlace con datos</button>
+        </div>
+        <p class="share-url-msg status"></p>
+      </section>
+      <section class="card" style="margin-bottom:1rem;">
         <div class="panel-header">
           <h2 id="mttoPreventivoMonthName">-</h2>
           <div class="meta-row" style="margin:0;">
@@ -57,6 +65,7 @@
       <div id="unidadesIndicadoresPanel" style="margin-top:1rem;"></div>
     </main>
 
+    <script src="https://cdn.jsdelivr.net/npm/lz-string@1.5.0/libs/lz-string.min.js"></script>
     <script src="app.js"></script>
     <script src="unidades.js"></script>
     <script src="mtto-preventivo.js"></script>

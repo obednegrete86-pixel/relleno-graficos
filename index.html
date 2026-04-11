@@ -62,6 +62,14 @@
         <p id="importExcelMessage" class="status"></p>
       </section>
       <section class="card">
+        <h2>Compartir datos por enlace</h2>
+        <p class="subtle">Genera un enlace con una copia de todo lo guardado en este navegador (indicadores y unidades). Quien lo abra verá los mismos datos en su equipo al aceptar la carga. Cualquiera con el enlace puede leer esa información.</p>
+        <div class="actions">
+          <button type="button" id="copyShareUrlBtn" class="btn-outline">Copiar enlace con datos</button>
+        </div>
+        <p id="shareUrlMessage" class="status"></p>
+      </section>
+      <section class="card">
         <div class="meta-row">
           <label for="captureIndicatorSelect">Indicador a capturar:</label>
           <select id="captureIndicatorSelect" class="month-select">
@@ -376,6 +384,7 @@
     </main>
 
     <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lz-string@1.5.0/libs/lz-string.min.js"></script>
     <script src="app.js"></script>
     <script src="import-excel.js"></script>
     <script src="unidades.js"></script>
